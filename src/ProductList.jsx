@@ -304,12 +304,22 @@ function ProductList({ onHomeClick }) {
                                         {/* Display other plant details like description and cost */}
                                         <div className="product-description">{plant.description}</div> {/* Display plant description */}
                                         <div className="product-cost">${parseFloat(plant.cost.replace("$", ""))}</div> {/* Display plant cost */}
-                                        <button
-                                            className="product-button"
-                                            onClick={() => handleAddToCart(plant)} // Handle adding plant to cart
-                                        >
-                                            Add to Cart
-                                        </button>
+                                        {addedToCart[plant.name] ? (
+                                            <button
+                                                className="product-button"
+                                                style={{ backgroundColor: '#ccc', color: '#333', cursor: 'default' }}
+                                                disabled
+                                            >
+                                                Added to Cart
+                                            </button>
+                                        ) : (
+                                            <button
+                                                className="product-button"
+                                                onClick={() => handleAddToCart(plant)} // Handle adding plant to cart
+                                            >
+                                                Add to Cart
+                                            </button>
+                                        )}
                                     </div>
                                 ))}
                             </div>
@@ -318,7 +328,7 @@ function ProductList({ onHomeClick }) {
 
                 </div>
             ) : (
-                <CartItem onContinueShopping={handleContinueShopping} />
+                <CartItem onContinueShopping={handleContinueShopping} onItemRemoved={(item) => setAddedToCart(prev => ({ ...prev, [item.name]: false }))} />
             )}
         </div>
     );
